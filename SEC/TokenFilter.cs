@@ -20,6 +20,6 @@ namespace SEC
 
         public TokenType Type { get; }
 
-        public abstract string Read(TextReader reader);
+        public abstract NodeToken Read(TextReader reader);
     }
 }

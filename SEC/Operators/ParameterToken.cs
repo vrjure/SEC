@@ -12,7 +12,7 @@ namespace SEC.Operators
 
         }
 
-        public override string Read(TextReader reader)
+        public override NodeToken Read(TextReader reader)
         {
             StringBuilder sb = new StringBuilder();
             var ch = -1;
@@ -27,7 +27,7 @@ namespace SEC.Operators
                     break;
                 }
             }
-            return sb.ToString();
+            return new NodeToken(sb.ToString(), TokenType.Parameter);
         }
     }
 }

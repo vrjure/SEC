@@ -9,6 +9,7 @@ namespace SEC
         Ignore,
         Parameter,
         Operator,
-        Constant
+        Constant,
+        Group
     }
 }

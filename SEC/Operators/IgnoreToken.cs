@@ -12,13 +12,13 @@ namespace SEC.Operators
 
         }
 
-        public override string Read(TextReader reader)
+        public override NodeToken Read(TextReader reader)
         {
             while (reader.Peek() == ' ')
             {
                 reader.Read();
             }
-            return "";
+            return new NodeToken("", TokenType.Ignore);
         }
     }
 }

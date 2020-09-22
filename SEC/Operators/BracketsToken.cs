@@ -5,17 +5,16 @@ using System.Text;
 
 namespace SEC.Operators
 {
-    class AddToken : TokenFilter
+    class BracketsToken : TokenFilter
     {
-        public AddToken():base('+', 4, TokenType.Operator)
+        public BracketsToken():base('(', 2, TokenType.Group)
         {
 
         }
 
         public override NodeToken Read(TextReader reader)
         {
-            reader.Read();
-            return new NodeToken("+", TokenType.Operator);
+            throw new NotImplementedException();
         }
     }
 }

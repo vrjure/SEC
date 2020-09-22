@@ -4,13 +4,15 @@ using System.Text;
 
 namespace SEC
 {
-    class NodeToken
+    public class NodeToken
     {
-        public NodeToken(string token)
+        public NodeToken(string token, TokenType type)
         {
             this.Token = token;
+            this.Type = type;
         }
 
         public string Token { get; set; }
+        public TokenType Type { get; set; }
     }
 }
