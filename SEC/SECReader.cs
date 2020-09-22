@@ -1,7 +1,9 @@
 ﻿using SEC.Operators;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace SEC
@@ -10,67 +12,33 @@ namespace SEC
     {
         private readonly TextReader tr;
         private OperateNode Node;
-        private readonly Stack<OperateNode> nodesStack = new Stack<OperateNode>();
-        private IEnumerable<NodeToken> tokens;
-        public SECReader(TextReader tr, IEnumerable<NodeToken> tokens)
+        private readonly Stack<TokenFilter> nodesStack = new Stack<TokenFilter>();
+        private Dictionary<char, TokenFilter> tokens = new Dictionary<char, TokenFilter>();
+        public SECReader(TextReader tr, IEnumerable<TokenFilter> tokens)
         {
             this.tr = tr;
-            this.tokens = tokens;
-            Check(tokens);
+            this.tokens = tokens.ToDictionary(f=>f.Token);
         }
 
         public SECReader(string text):this(new StringReader(text), Default.DefaultOperators())
         {
             
         }
-
-        private void Check(IEnumerable<NodeToken> tokens)
-        {
-            Dictionary<char, int> dict = new Dictionary<char, int>();
-            foreach (var item in tokens)
-            {
-                dict.Add(item.Ch, item.Priority);
-            }
-        }
         
         private void Read(TextReader reader)
         {
-            OperateNode node = null;
-            while (reader.Peek() > -1)
-            {   
-                foreach (var item in this.tokens)
+            var ch = -1;
+            while ((ch = reader.Peek()) > -1)
+            {
+                if (!tokens.TryGetValue((char)ch, out TokenFilter nodeToken))
                 {
-                    if (item.TryRead(reader, out string token))
-                    {
-                        if (item.Type == TokenType.Ignore)
-                        {
-                            break;
-                        }
-                        if (node == null)
-                        {
-                            node = new OperateNode();
-                        }
-                        switch (item.Type)
-                        {
-                            case TokenType.Ignore:
-                                
-                                break;
-                            case TokenType.Parameter:
-                                break;
-                            case TokenType.Operator:
-                                break;
-                            case TokenType.Constant:
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
-                    }
+                    throw new InvalidOperationException($"invalid character [{ch}]");
                 }
 
-                throw new InvalidOperationException($"invalid character [{(char)reader.Peek()}]");
-            }
+                var token = nodeToken.Read(reader);
 
+
+            }
         }
     }
 }

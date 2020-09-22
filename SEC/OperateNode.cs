@@ -6,7 +6,7 @@ namespace SEC
 {
     class OperateNode
     {
-        public NodeToken Operator { get; set; }
+        public TokenFilter Operator { get; set; }
         public object Left { get; set; }
         public object Right { get; set; }
 

@@ -5,11 +5,11 @@ using System.Text;
 
 namespace SEC
 {
-    class Default
+    public class Default
     {
         private static IgnoreToken ignore = new IgnoreToken();
         private static AddToken addToken = new AddToken();
-        public static IEnumerable<NodeToken> DefaultOperators()
+        public static IEnumerable<TokenFilter> DefaultOperators()
         {
             yield return ignore;
             yield return addToken;

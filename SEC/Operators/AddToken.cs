@@ -5,23 +5,16 @@ using System.Text;
 
 namespace SEC.Operators
 {
-    class AddToken : NodeToken
+    class AddToken : TokenFilter
     {
         public AddToken():base('+', 4, TokenType.Operator)
         {
 
         }
 
-        public override bool TryRead(TextReader tr, out string token)
+        public override string Read(TextReader reader)
         {
-            if (tr.Peek() == '+')
-            {
-                tr.Read();
-                token = "+";
-                return true;
-            }
-            token = null;
-            return false;
+            return ((char)reader.Read()).ToString();
         }
     }
 }

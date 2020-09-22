@@ -1,25 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 
 namespace SEC
 {
-    public abstract class NodeToken
+    class NodeToken
     {
-        public NodeToken(char ch, int priority, TokenType type)
+        public NodeToken(string token)
         {
-            this.Ch = ch;
-            this.Priority = priority;
-            this.Type = type;
+            this.Token = token;
         }
 
-        public char Ch { get; }
-
-        public int Priority { get; }
-
-        public TokenType Type { get; }
-
-        public abstract bool TryRead(TextReader tr, out string token);
+        public string Token { get; set; }
     }
 }
