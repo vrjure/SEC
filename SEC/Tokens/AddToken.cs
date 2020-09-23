@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace SEC.Operators
+namespace SEC.Tokens
 {
     class AddToken : TokenFilter
     {
@@ -12,10 +12,16 @@ namespace SEC.Operators
 
         }
 
+        public override NodeToken Calculate(NodeToken left, NodeToken right)
+        {
+            var 
+            return new NodeToken()
+        }
+
         public override NodeToken Read(TextReader reader)
         {
             reader.Read();
-            return new NodeToken("+", TokenType.Operator);
+            return new NodeToken("+", this);
         }
     }
 }

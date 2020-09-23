@@ -1,4 +1,4 @@
-﻿using SEC.Operators;
+﻿using SEC.Tokens;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +14,9 @@ namespace SEC
         private OperateNode Node;
         private readonly Stack<NodeToken> nodeTokenStack = new Stack<NodeToken>();
         private readonly Stack<NodeToken> nodeTokenSwitchStack = new Stack<NodeToken>();
+        private readonly Queue<OperateNode> nodes = new Queue<OperateNode>();
         private Dictionary<char, TokenFilter> tokens = new Dictionary<char, TokenFilter>();
+
         public SECReader(TextReader reader, IEnumerable<TokenFilter> tokens)
         {
             this.reader = reader;
@@ -39,12 +41,12 @@ namespace SEC
 
                 var nodeToken = tf.Read(reader);
 
-                if (nodeToken.Type == TokenType.Ignore)
+                if (nodeToken.Filter.Type == TokenType.Ignore)
                 {
                     continue;
                 }
 
-                if (nodeToken.Type != TokenType.Operator)
+                if (nodeToken.Filter.Type != TokenType.Operator)
                 {
                     nodeTokenStack.Push(nodeToken);
                 }
@@ -55,7 +57,7 @@ namespace SEC
 
         private void OperatorTokenPush(NodeToken token)
         {
-            if (token.Type != TokenType.Operator)
+            if (token.Filter.Type != TokenType.Operator)
             {
                 return;
             }
@@ -63,15 +65,31 @@ namespace SEC
             while (nodeTokenStack.Count > 0)
             {
                 var operatorToken = nodeTokenStack.Pop();
-                if(operatorToken.Type != TokenType.Operator)
+                nodeTokenSwitchStack.Push(operatorToken);
+                if(operatorToken.Filter.Type == TokenType.Operator)
                 {
-                    nodeTokenSwitchStack.Push(operatorToken);
-                }
-                else
-                {
-                    if(this.tokens[token.Token[0]].Priority >= this.tokens[operatorToken.Token[0]].Priority)
+                    if(token.Filter.Priority < operatorToken.Filter.Priority)
                     {
-
+                        var right = nodeTokenSwitchStack.Pop();
+                        if (right.Filter.Type == TokenType.Operator)
+                        {
+                            throw new InvalidOperationException($"invalid token {right.Token}");
+                        }
+                        var op = operatorToken;
+                        var left = nodeTokenStack.Pop();
+                        if (left.Filter.Type == TokenType.Operator)
+                        {
+                            throw new InvalidOperationException($"invalid token {left.Token}");
+                        }
+                        var newNode = op.Filter.Calculate(left, right);
+                        nodeTokenStack.Push(newNode);
+                    }
+                    else
+                    {
+                        while (nodeTokenSwitchStack.Count > 0)
+                        {
+                            nodeTokenStack.Push(nodeTokenSwitchStack.Pop());
+                        }
                     }
                 }
             }

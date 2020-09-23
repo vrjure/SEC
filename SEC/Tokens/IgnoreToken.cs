@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace SEC.Operators
+namespace SEC.Tokens
 {
     class IgnoreToken : TokenFilter
     {
@@ -18,7 +18,7 @@ namespace SEC.Operators
             {
                 reader.Read();
             }
-            return new NodeToken("", TokenType.Ignore);
+            return new NodeToken("", this);
         }
     }
 }

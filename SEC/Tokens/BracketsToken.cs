@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace SEC.Operators
+namespace SEC.Tokens
 {
     class BracketsToken : TokenFilter
     {

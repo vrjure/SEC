@@ -6,13 +6,18 @@ namespace SEC
 {
     public class NodeToken
     {
-        public NodeToken(string token, TokenType type)
+        public NodeToken(string token, TokenFilter filter)
         {
             this.Token = token;
-            this.Type = type;
+            this.Filter = filter;
         }
 
-        public string Token { get; set; }
-        public TokenType Type { get; set; }
+        public NodeToken(NodeToken left, NodeToken right, TokenFilter op)
+        {
+            Token = $"{left}{right}{op.Token}";
+        }
+
+        public string Token { get; }
+        public TokenFilter Filter { get; }
     }
 }

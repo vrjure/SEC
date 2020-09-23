@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace SEC.Operators
+namespace SEC.Tokens
 {
     class ParameterToken : TokenFilter
     {
@@ -27,7 +27,7 @@ namespace SEC.Operators
                     break;
                 }
             }
-            return new NodeToken(sb.ToString(), TokenType.Parameter);
+            return new NodeToken(sb.ToString(), this);
         }
     }
 }
