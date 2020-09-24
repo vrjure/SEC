@@ -10,6 +10,7 @@ namespace SEC
         Parameter,
         Operator,
         Constant,
-        Group
+        Expression,
+        Postfix
     }
 }

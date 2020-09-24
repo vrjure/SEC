@@ -5,9 +5,9 @@ using System.Text;
 
 namespace SEC.Tokens
 {
-    class AddToken : TokenFilter
+    class ExceptToken : TokenFilter
     {
-        public AddToken():base('+', 4, TokenType.Operator)
+        public ExceptToken():base('/', 3, TokenType.Operator)
         {
 
         }
@@ -15,7 +15,7 @@ namespace SEC.Tokens
         public override NodeToken Read(TextReader reader)
         {
             reader.Read();
-            return new NodeToken("+", Type, Priority);
+            return new NodeToken("/", Type, Priority);
         }
     }
 }

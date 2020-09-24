@@ -41,23 +41,31 @@ namespace SEC
 
                 var nodeToken = tf.Read(reader);
 
-                if (nodeToken.Filter.Type == TokenType.Ignore)
+                switch (nodeToken.TokenType)
                 {
-                    continue;
+                    case TokenType.Ignore:
+                        break;
+                    case TokenType.Parameter:
+                    case TokenType.Constant:
+                    case TokenType.Postfix:
+                        nodeTokenStack.Push(nodeToken);
+                        break;
+                    case TokenType.Expression:
+                        TextReader sub = new StringReader(nodeToken.Token);
+                        Read(sub);
+                        break;
+                    case TokenType.Operator:
+                        OperatorTokenPush(nodeToken);
+                        break;
+                    default:
+                        break;
                 }
-
-                if (nodeToken.Filter.Type != TokenType.Operator)
-                {
-                    nodeTokenStack.Push(nodeToken);
-                }
-
-
             }
         }
 
         private void OperatorTokenPush(NodeToken token)
         {
-            if (token.Filter.Type != TokenType.Operator)
+            if (token.TokenType != TokenType.Operator)
             {
                 return;
             }
@@ -66,22 +74,22 @@ namespace SEC
             {
                 var operatorToken = nodeTokenStack.Pop();
                 nodeTokenSwitchStack.Push(operatorToken);
-                if(operatorToken.Filter.Type == TokenType.Operator)
+                if(operatorToken.TokenType == TokenType.Operator)
                 {
-                    if(token.Filter.Priority < operatorToken.Filter.Priority)
+                    if(token.Priority < operatorToken.Priority)
                     {
+                        var op = operatorToken;
                         var right = nodeTokenSwitchStack.Pop();
-                        if (right.Filter.Type == TokenType.Operator)
+                        if (right.TokenType == TokenType.Operator)
                         {
                             throw new InvalidOperationException($"invalid token {right.Token}");
                         }
-                        var op = operatorToken;
                         var left = nodeTokenStack.Pop();
-                        if (left.Filter.Type == TokenType.Operator)
+                        if (left.TokenType == TokenType.Operator)
                         {
                             throw new InvalidOperationException($"invalid token {left.Token}");
                         }
-                        var newNode = op.Filter.Calculate(left, right);
+                        var newNode = new NodeToken(left, right, op);
                         nodeTokenStack.Push(newNode);
                     }
                     else
@@ -90,6 +98,7 @@ namespace SEC
                         {
                             nodeTokenStack.Push(nodeTokenSwitchStack.Pop());
                         }
+                        break;
                     }
                 }
             }

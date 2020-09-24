@@ -21,6 +21,5 @@ namespace SEC
         public TokenType Type { get; }
 
         public abstract NodeToken Read(TextReader reader);
-        public abstract NodeToken Calculate(NodeToken left, NodeToken right);
     }
 }

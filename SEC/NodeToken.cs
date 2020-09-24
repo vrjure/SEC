@@ -6,18 +6,26 @@ namespace SEC
 {
     public class NodeToken
     {
-        public NodeToken(string token, TokenFilter filter)
+        public NodeToken(string token, TokenType tokenType, int priority)
         {
             this.Token = token;
-            this.Filter = filter;
+            this.TokenType = TokenType;
+            this.Priority = priority;
         }
 
-        public NodeToken(NodeToken left, NodeToken right, TokenFilter op)
+        public NodeToken(NodeToken left, NodeToken right, NodeToken op)
         {
-            Token = $"{left}{right}{op.Token}";
+            Token = $"{left}{right}{op}";
+            this.TokenType = TokenType.Postfix;
+            this.Priority = int.MaxValue;
         }
 
         public string Token { get; }
-        public TokenFilter Filter { get; }
+        public TokenType TokenType { get; }
+        public int Priority { get; }
+        public override string ToString()
+        {
+            return this.Token;
+        }
     }
 }
