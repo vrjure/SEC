@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace SEC.Tokens
+namespace SEC.Filters
 {
-    class ParameterToken : TokenFilter
+    class ParameterFilters : TokenFilter
     {
-        public ParameterToken():base('@', 0, TokenType.Parameter)
+        public ParameterFilters():base(0, TokenType.Parameter)
         {
 
+        }
+
+        public override bool IsMatch(char ch)
+        {
+            return ch == '@';
         }
 
         public override NodeToken Read(TextReader reader)
@@ -27,7 +32,7 @@ namespace SEC.Tokens
                     break;
                 }
             }
-            return new NodeToken(sb.ToString(), this);
+            return new NodeToken(sb.ToString(), Type, Priority);
         }
     }
 }

@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace SEC.Tokens
+namespace SEC.Filters
 {
-    class BracketsToken : TokenFilter
+    class BracketsFilters : ITokenFilter<BracketsToken>
     {
-        public BracketsToken():base('(', 2, TokenType.Expression)
+        public BracketsFilters()
         {
 
         }
 
-        public override NodeToken Read(TextReader reader)
+        public bool IsMatch(char ch)
+        {
+            return ch == '(';
+        }
+
+        public BracketsToken Read(TextReader reader)
         {
             reader.Read();
             var ch = -1;
@@ -33,7 +38,12 @@ namespace SEC.Tokens
                 throw new InvalidOperationException("invalid character (");
             }
 
-            return new NodeToken(sb.ToString(), Type, Priority);
+            return new BracketsToken(sb.ToString());
+        }
+
+        INodeToken ITokenFilter.Read(TextReader reader)
+        {
+            return Read(reader);
         }
     }
 }
