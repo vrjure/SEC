@@ -7,10 +7,9 @@ namespace SEC
 {
     public class SECParser
     {
-        private readonly TextReader tr;
-        public SECParser(string text, Type resultType)
+        public SECParser()
         {
-            this.tr = new StringReader(text);
+            
         }
 
     }

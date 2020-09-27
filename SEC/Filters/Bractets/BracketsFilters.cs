@@ -14,7 +14,7 @@ namespace SEC.Filters
 
         public bool IsMatch(char ch)
         {
-            return ch == '(';
+            return ch == '(' || ch == ')';
         }
 
         public BracketsToken Read(TextReader reader)
@@ -25,7 +25,7 @@ namespace SEC.Filters
             StringBuilder sb = new StringBuilder();
             while ((ch = reader.Read()) > -1)
             {
-                if (ch == ')')
+                if (ch == ')' || ch == ')')
                 {
                     invalid = true;
                     break;

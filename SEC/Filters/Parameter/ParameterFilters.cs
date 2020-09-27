@@ -5,19 +5,14 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    class ParameterFilters : TokenFilter
+    class ParameterFilters : ITokenFilter<ParameterToken>
     {
-        public ParameterFilters():base(0, TokenType.Parameter)
-        {
-
-        }
-
-        public override bool IsMatch(char ch)
+        public bool IsMatch(char ch)
         {
             return ch == '@';
         }
 
-        public override NodeToken Read(TextReader reader)
+        public ParameterToken Read(TextReader reader)
         {
             StringBuilder sb = new StringBuilder();
             var ch = -1;
@@ -32,7 +27,12 @@ namespace SEC.Filters
                     break;
                 }
             }
-            return new NodeToken(sb.ToString(), Type, Priority);
+            return new ParameterToken(sb.ToString());
+        }
+
+        INodeToken ITokenFilter.Read(TextReader reader)
+        {
+            return Read(reader);
         }
     }
 }

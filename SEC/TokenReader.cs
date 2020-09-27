@@ -1,4 +1,4 @@
-﻿using SEC.Tokens;
+﻿using SEC.Filters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,12 +8,16 @@ using System.Text;
 
 namespace SEC
 {
-    public class TokenReader
+    public class TokenReader : IDisposable
     {
         private readonly TextReader reader;
-        private IEnumerable<TokenFilter> filters;
+        private IEnumerable<ITokenFilter> filters;
+        protected TokenReader() : base()
+        {
 
-        public TokenReader(TextReader reader, IEnumerable<TokenFilter> filters)
+        }
+
+        public TokenReader(TextReader reader, IEnumerable<ITokenFilter> filters)
         {
             this.reader = reader;
             this.filters = filters;
@@ -24,15 +28,15 @@ namespace SEC
             
         }
 
-        public NodeToken Read()
+        public INodeToken Read()
         {
-            var ch = this.reader.Read();
+            var ch = this.reader.Peek();
             if (ch == -1)
             {
                 return null;
             }
 
-            TokenFilter filter = null;
+            ITokenFilter filter = null;
             foreach (var item in filters)
             {
                 if (item.IsMatch((char)ch))
@@ -48,6 +52,11 @@ namespace SEC
             }
 
             return filter.Read(reader);
+        }
+
+        public void Dispose()
+        {
+            this.reader.Dispose();
         }
     }
 }

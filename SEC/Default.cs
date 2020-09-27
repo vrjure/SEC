@@ -14,7 +14,7 @@ namespace SEC
         private static ExceptFilters exceptToken = new ExceptFilters();
         private static NumberFilters numberToken = new NumberFilters();
 
-        public static IEnumerable<TokenFilter> DefaultFilters()
+        public static IEnumerable<ITokenFilter> DefaultFilters()
         {
             yield return numberToken;
             yield return ignore;
