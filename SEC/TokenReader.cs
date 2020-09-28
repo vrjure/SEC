@@ -8,7 +8,7 @@ using System.Text;
 
 namespace SEC
 {
-    public class TokenReader : IDisposable
+    class TokenReader : IDisposable
     {
         private readonly TextReader reader;
         private IEnumerable<ITokenFilter> filters;
