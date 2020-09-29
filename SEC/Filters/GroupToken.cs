@@ -4,9 +4,9 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    class BracketsToken : NodeToken
+    public class GroupToken: NodeToken
     {
-        public BracketsToken(string token) : base(token)
+        public GroupToken(char start, char end)
         {
 
         }

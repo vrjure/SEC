@@ -12,5 +12,10 @@ namespace SEC.Filters
         }
 
         public string Token { get; }
+
+        public virtual bool Equals(INodeToken other)
+        {
+            return this.Token == other.Token;
+        }
     }
 }

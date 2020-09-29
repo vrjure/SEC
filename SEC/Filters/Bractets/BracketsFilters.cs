@@ -1,11 +1,12 @@
-﻿using System;
+﻿using SEC.Filters;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
 namespace SEC.Filters
 {
-    class BracketsFilters : ITokenFilter<BracketsToken>
+    class BracketsFilters : ITokenFilter
     {
         public BracketsFilters()
         {
@@ -17,28 +18,21 @@ namespace SEC.Filters
             return ch == '(' || ch == ')';
         }
 
-        public BracketsToken Read(TextReader reader)
+        public INodeToken Read(TextReader reader)
         {
-            reader.Read();
-            var ch = -1;
-            bool invalid = false;
-            StringBuilder sb = new StringBuilder();
-            while ((ch = reader.Read()) > -1)
+            var ch = reader.Read();
+            if (ch == '(')
             {
-                if (ch == ')' || ch == ')')
-                {
-                    invalid = true;
-                    break;
-                }
-                sb.Append(ch);
+                return new LeftBracketsToken();
             }
-
-            if (!invalid)
+            else if (ch == ')')
             {
-                throw new InvalidOperationException("invalid character (");
+                return new RightBracketsToken();
             }
-
-            return new BracketsToken(sb.ToString());
+            else
+            {
+                throw new InvalidOperationException($"Invalid character {(char)ch}");
+            }
         }
 
         INodeToken ITokenFilter.Read(TextReader reader)

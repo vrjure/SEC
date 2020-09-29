@@ -4,15 +4,13 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    public abstract class OperatorToken : INodeToken
+    public abstract class OperatorToken : NodeToken
     {
-        public OperatorToken(string token, int priority)
+        public OperatorToken(string token, int priority):base(token)
         {
-            this.Token = token;
             this.Priority = priority;
         }
 
-        public string Token { get; }
         public int Priority { get; }
 
         public abstract NumberToken Calc(NumberToken left, NumberToken right);

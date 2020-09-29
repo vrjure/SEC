@@ -4,8 +4,7 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    public interface INodeToken: IEquatable<INodeToken>
+    class TokenCollection
     {
-        string Token { get; }
     }
 }

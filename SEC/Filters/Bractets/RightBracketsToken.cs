@@ -4,8 +4,11 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    public interface INodeToken: IEquatable<INodeToken>
+    class RightBracketsToken:NodeToken
     {
-        string Token { get; }
+        public RightBracketsToken():base(")")
+        {
+
+        }
     }
 }

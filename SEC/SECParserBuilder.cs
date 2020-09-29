@@ -14,19 +14,5 @@ namespace SEC
             this.OperatorDict.Add(op, priority);
         }
 
-        private void DefaultOperators()
-        {
-            AddOperator("(", 2);
-            AddOperator(")", 2);
-
-            AddOperator("*", 3);
-            AddOperator("/", 3);
-            AddOperator("%", 3);
-
-            AddOperator("+", 4);
-            AddOperator("-", 4);
-
-            AddOperator("=", 16);
-        }
     }
 }

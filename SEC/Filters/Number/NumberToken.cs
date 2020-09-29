@@ -4,21 +4,17 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    public class NumberToken : INodeToken
+    public class NumberToken : NodeToken
     {
-        public NumberToken(string token)
+        public NumberToken(string token):base(token)
         {
-            this.Token = token;
             this.Value = double.Parse(Token);
         }
 
-        public NumberToken(NumberToken left, NumberToken right, OperatorToken op, Func<NumberToken, NumberToken, double> calc)
+        public NumberToken(NumberToken left, NumberToken right, OperatorToken op, Func<NumberToken, NumberToken, double> calc):this($"{left}{op}{right}")
         {
-            this.Token = $"{left}{op}{right}";
             this.Value = calc(left, right);
         }
-
-        public string Token { get; }
 
         public double Value { get; }
 
