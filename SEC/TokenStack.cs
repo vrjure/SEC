@@ -78,7 +78,7 @@ namespace SEC
             {
                 var token = Pop();
                 yield return token;
-                if (token == end)
+                if (token.Equals(end))
                 {
                     break;
                 }

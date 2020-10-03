@@ -7,6 +7,6 @@ namespace SEC.Filters
     public interface ITokenParser
     {
         NumberToken Parse(string expression);
-        NumberToken Parse(IEnumerable<INodeToken> tokens);
+        NumberToken Parse(IEnumerator<INodeToken> tokens);
     }
 }

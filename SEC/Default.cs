@@ -13,6 +13,7 @@ namespace SEC
         private static LessFilters lessToken = new LessFilters();
         private static ExceptFilters exceptToken = new ExceptFilters();
         private static NumberFilters numberToken = new NumberFilters();
+        private static BracketsFilters bracketsFilters = new BracketsFilters();
 
         public static IEnumerable<ITokenFilter> DefaultFilters()
         {
@@ -21,7 +22,8 @@ namespace SEC
             yield return addToken;
             yield return lessToken;
             yield return multiplyToken;
-            yield return exceptToken;           
+            yield return exceptToken;
+            yield return bracketsFilters;
         }
     }
 }

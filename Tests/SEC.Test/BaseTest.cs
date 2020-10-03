@@ -42,8 +42,8 @@ namespace SEC.Test
         [Test]
         public void ComplexText()
         {
-            var token = parser.Parse("4+2*5");
-            Assert.AreEqual(14, token.Value);
+            var token = parser.Parse("4+2*5 + 6/2-1");
+            Assert.AreEqual(16, token.Value);
         }
 
         [Test]

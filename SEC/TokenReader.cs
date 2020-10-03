@@ -9,7 +9,7 @@ using System.Text;
 
 namespace SEC
 {
-    class TokenReader : IEnumerator<INodeToken>, IEnumerator, IEnumerable<INodeToken>, IEnumerable, IDisposable
+    public class TokenReader : IEnumerator<INodeToken>, IEnumerator, IDisposable
     {
         private TextReader reader;
         private IEnumerable<ITokenFilter> filters;
@@ -73,6 +73,7 @@ namespace SEC
             var token = Read();
             if (token == null)
             {
+                Current = null;
                 return false;
             }
             Current = token;
@@ -83,16 +84,6 @@ namespace SEC
         {
             this.reader.Dispose();
             this.reader = new StringReader(this.expression);
-        }
-
-        public IEnumerator<INodeToken> GetEnumerator()
-        {
-            return this;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

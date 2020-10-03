@@ -16,7 +16,7 @@ namespace SEC.Filters
 
         public abstract NumberToken Calc(NumberToken left, NumberToken right);
 
-        public override void Parse(TokenStack stack, ITokenParser parser)
+        public override void Parse(TokenStack stack, IEnumerator<INodeToken> reader, ITokenParser parser)
         {
             if (!stack.TryFindLastOperator(out OperatorToken lastOp))
             {
@@ -30,7 +30,7 @@ namespace SEC.Filters
                 if (array.Length > 2)
                 {
                     StringBuilder sb = new StringBuilder();
-                    for (int i = array.Length - 1 ; i > 0; i++)
+                    for (int i = array.Length - 1 ; i >= 0; i--)
                     {
                         sb.Append(array[i].Token);
                     }

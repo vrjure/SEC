@@ -22,12 +22,13 @@ namespace SEC
             }
         }
 
-        public NumberToken Parse(IEnumerable<INodeToken> tokens)
+        public NumberToken Parse(IEnumerator<INodeToken> reader)
         {
             TokenStack stack = new TokenStack();
-            foreach (var item in tokens)
+
+            while (reader.MoveNext())
             {
-                item.Parse(stack, this);
+                reader.Current.Parse(stack, reader, this);
             }
 
             while (stack.Count > 1)
