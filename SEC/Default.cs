@@ -21,7 +21,7 @@ namespace SEC
             yield return addToken;
             yield return lessToken;
             yield return multiplyToken;
-            yield return exceptToken;
+            yield return exceptToken;           
         }
     }
 }

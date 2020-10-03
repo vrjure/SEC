@@ -11,5 +11,9 @@ namespace SEC.Filters
             
         }
 
+        public override void Parse(TokenStack stack, ITokenParser parser)
+        {
+            
+        }
     }
 }

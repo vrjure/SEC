@@ -15,7 +15,7 @@ namespace SEC.Filters
         {
             return new NumberToken(left, right, this, (l, r) =>
             {
-                return l.Value + r.Value;
+                return l.Value / r.Value;
             });
         }
     }

@@ -5,8 +5,8 @@ using System.Text;
 namespace SEC.Filters
 {
     public interface ITokenParser
-    {   
-        Type Token { get; }
-        void Parse(Stack<INodeToken> tokenStack, INodeToken token);
+    {
+        NumberToken Parse(string expression);
+        NumberToken Parse(IEnumerable<INodeToken> tokens);
     }
 }

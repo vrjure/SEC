@@ -47,7 +47,8 @@ namespace SEC.Filters
                     break;
                 }
             }
-            return new NumberToken(sb.ToString());
+            var token = sb.ToString();
+            return new NumberToken(token, double.Parse(token));
         }
     }
 }

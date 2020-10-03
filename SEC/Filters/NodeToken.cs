@@ -17,5 +17,15 @@ namespace SEC.Filters
         {
             return this.Token == other.Token;
         }
+
+        public virtual void Parse(TokenStack stack, ITokenParser parser)
+        {
+            stack.Push(this);
+        }
+
+        public override string ToString()
+        {
+            return Token;
+        }
     }
 }

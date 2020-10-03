@@ -29,10 +29,8 @@ namespace SEC.Filters
             {
                 return new RightBracketsToken();
             }
-            else
-            {
-                throw new InvalidOperationException($"Invalid character {(char)ch}");
-            }
+
+            throw new InvalidOperationException($"Invalid character {(char)ch}");
         }
 
         INodeToken ITokenFilter.Read(TextReader reader)

@@ -2,73 +2,44 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace SEC
 {
-    public class SECParser
+    public class SECParser : ITokenParser
     {
         public SECParser()
         {
             
         }
 
-        public object GetResult(string expression)
+        public NumberToken Parse(string expression)
         {
-            Stack<INodeToken> tokenStack = new Stack<INodeToken>();
-            TokenReader reader = new TokenReader(expression);
-            INodeToken token = null;
-            while ((token = reader.Read()) != null)
+            using (TokenReader reader = new TokenReader(expression))
             {
-                if (token is OperatorToken op)
-                {
-                    OperatorProcess(tokenStack, op);
-                }
-                else
+                return Parse(reader);
             }
         }
 
-        private void OperatorProcess(Stack<INodeToken> stack, OperatorToken op)
+        public NumberToken Parse(IEnumerable<INodeToken> tokens)
         {
-            Stack<INodeToken> switchToken = new Stack<INodeToken>();
-
-            while (stack.Count > 0)
+            TokenStack stack = new TokenStack();
+            foreach (var item in tokens)
             {
-                var token = stack.Pop();
-                if (token is OperatorToken lastOp)
-                {
-                    if (op.Priority > lastOp.Priority)
-                    {
-                        var right = switchToken.Pop();
-                        if (!(right is NumberToken))
-                        {
-                            throw new InvalidOperationException($"Invalid token {right}");
-                        }
-
-                        var left = stack.Pop();
-                        if (!(left is NumberToken))
-                        {
-                            throw new InvalidOperationException($"Invalid token {left}");
-                        }
-
-                        var newToken = lastOp.Calc((NumberToken)left, (NumberToken)right);
-                        stack.Push(newToken);
-                    }
-                    else
-                    {
-                        while (switchToken.Count > 0)
-                        {
-                            stack.Push(switchToken.Pop());
-                        }
-                        stack.Push(op);
-                    }
-                }
-                else
-                {
-                    switchToken.Push(token);
-                }
+                item.Parse(stack, this);
             }
 
+            while (stack.Count > 1)
+            {
+                var right = stack.Pop() as NumberToken;
+                var op = stack.Pop() as OperatorToken;
+                var left = stack.Pop() as NumberToken;
+
+                var newToken = op.Calc(left, right);
+                stack.Push(newToken);
+            }
+            return stack.Pop() as NumberToken;
         }
     }
 }

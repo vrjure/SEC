@@ -6,14 +6,14 @@ namespace SEC.Filters
 {
     public class NumberToken : NodeToken
     {
-        public NumberToken(string token):base(token)
+        public NumberToken(string token, double value):base(token)
         {
-            this.Value = double.Parse(Token);
+            this.Value = value;
         }
 
-        public NumberToken(NumberToken left, NumberToken right, OperatorToken op, Func<NumberToken, NumberToken, double> calc):this($"{left}{op}{right}")
+        public NumberToken(NumberToken left, NumberToken right, OperatorToken op, Func<NumberToken, NumberToken, double> calc):this($"{left}{op}{right}", calc(left, right))
         {
-            this.Value = calc(left, right);
+            
         }
 
         public double Value { get; }

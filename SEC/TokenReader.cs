@@ -1,5 +1,6 @@
 ﻿using SEC.Filters;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -8,27 +9,35 @@ using System.Text;
 
 namespace SEC
 {
-    class TokenReader : IDisposable
+    class TokenReader : IEnumerator<INodeToken>, IEnumerator, IEnumerable<INodeToken>, IEnumerable, IDisposable
     {
-        private readonly TextReader reader;
+        private TextReader reader;
         private IEnumerable<ITokenFilter> filters;
-        protected TokenReader() : base()
+        private readonly string expression;
+
+        public INodeToken Current { get; private set; }
+
+        object IEnumerator.Current => Current;
+
+        protected TokenReader()
         {
 
         }
 
-        public TokenReader(TextReader reader, IEnumerable<ITokenFilter> filters)
+        public TokenReader(string expression, IEnumerable<ITokenFilter> filters)
         {
-            this.reader = reader;
             this.filters = filters;
+            this.expression = expression;
+            this.reader = new StringReader(this.expression);
         }
 
-        public TokenReader(string text):this(new StringReader(text), Default.DefaultFilters())
+        public TokenReader(string expression) : this(expression, Default.DefaultFilters())
         {
-            
+
         }
 
-        public INodeToken Read()
+
+        private INodeToken Read()
         {
             var ch = this.reader.Peek();
             if (ch == -1)
@@ -57,6 +66,33 @@ namespace SEC
         public void Dispose()
         {
             this.reader.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            var token = Read();
+            if (token == null)
+            {
+                return false;
+            }
+            Current = token;
+            return true;
+        }
+
+        public void Reset()
+        {
+            this.reader.Dispose();
+            this.reader = new StringReader(this.expression);
+        }
+
+        public IEnumerator<INodeToken> GetEnumerator()
+        {
+            return this;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
