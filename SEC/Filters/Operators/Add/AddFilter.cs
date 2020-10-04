@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    class AddFilters : ITokenFilter<AddToken>
+    public class AddFilter : ITokenFilter<AddToken>
     {
         public bool IsMatch(char ch)
         {

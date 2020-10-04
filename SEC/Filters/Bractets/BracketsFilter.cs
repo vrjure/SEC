@@ -6,9 +6,9 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    class BracketsFilters : ITokenFilter
+    public class BracketsFilter : ITokenFilter
     {
-        public BracketsFilters()
+        public BracketsFilter()
         {
 
         }

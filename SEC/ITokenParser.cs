@@ -1,8 +1,9 @@
-﻿using System;
+﻿using SEC.Filters;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SEC.Filters
+namespace SEC
 {
     public interface ITokenParser
     {

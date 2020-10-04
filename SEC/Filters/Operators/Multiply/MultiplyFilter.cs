@@ -5,18 +5,17 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    class ExceptFilters : ITokenFilter<ExceptToken>
+    public class MultiplyFilter : ITokenFilter<MultiplyToken>
     {
-
         public bool IsMatch(char ch)
         {
-            return ch == '/';
+            return ch == '*';
         }
 
-        public ExceptToken Read(TextReader reader)
+        public MultiplyToken Read(TextReader reader)
         {
             reader.Read();
-            return new ExceptToken();
+            return new MultiplyToken();
         }
 
         INodeToken ITokenFilter.Read(TextReader reader)

@@ -4,11 +4,12 @@ namespace SEC.Test
 {
     public class BaseTest
     {
-        SECParser parser = null;
+        ITokenParser parser = null;
         [SetUp]
         public void Setup()
         {
-            parser = new SECParser();
+            var builder = new SECParserBuilder();
+            parser = builder.UseDefaultFilters().Build();
         }
 
         [Test]
@@ -51,6 +52,27 @@ namespace SEC.Test
         {
             var token = parser.Parse(" 4 + 2  * 5 ");
             Assert.AreEqual(14, token.Value);
+        }
+
+        [Test]
+        public void DecimalTest()
+        {
+            var token = parser.Parse("3*2.5 +1.2*(1+1)");
+            Assert.AreEqual(9.9, token.Value);
+        }
+
+        [Test]
+        public void OneBracketsTest()
+        {
+            var token = parser.Parse("5*(2+1)");
+            Assert.AreEqual(15, token.Value);
+        }
+
+        [Test]
+        public void NestedBracketsTest()
+        {
+            var token = parser.Parse("5+(2*(1+3))");
+            Assert.AreEqual(13, token.Value);
         }
     }
 }

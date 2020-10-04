@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    class ExceptToken : OperatorToken
+    public class ExceptToken : OperatorToken
     {
         public ExceptToken(): base("/", 3)
         {

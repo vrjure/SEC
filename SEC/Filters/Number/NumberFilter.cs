@@ -5,10 +5,10 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    class NumberFilters : ITokenFilter
+    public class NumberFilter : ITokenFilter
     {
         HashSet<char> chars = new HashSet<char>();
-        public NumberFilters()
+        public NumberFilter()
         {
             chars.Add('0');
             chars.Add('1');

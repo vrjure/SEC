@@ -7,16 +7,17 @@ using System.Text;
 
 namespace SEC
 {
-    public class SECParser : ITokenParser
+    class SECParser : ITokenParser
     {
-        public SECParser()
+        private readonly ICollection<ITokenFilter> filters;
+        public SECParser(ICollection<ITokenFilter> filters)
         {
-            
+            this.filters = filters;
         }
 
         public NumberToken Parse(string expression)
         {
-            using (TokenReader reader = new TokenReader(expression))
+            using (TokenReader reader = new TokenReader(expression, filters))
             {
                 return Parse(reader);
             }
@@ -34,8 +35,20 @@ namespace SEC
             while (stack.Count > 1)
             {
                 var right = stack.Pop() as NumberToken;
+                if (right == null)
+                {
+                    throw new InvalidOperationException($"{right} is not a {nameof(NumberToken)}");
+                }
                 var op = stack.Pop() as OperatorToken;
+                if (op == null)
+                {
+                    throw new InvalidOperationException($"{op} is not a {nameof(OperatorToken)}");
+                }
                 var left = stack.Pop() as NumberToken;
+                if (left == null)
+                {
+                    throw new InvalidOperationException($"{left} is not a {nameof(NumberToken)}");
+                }
 
                 var newToken = op.Calc(left, right);
                 stack.Push(newToken);

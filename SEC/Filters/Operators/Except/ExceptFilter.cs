@@ -5,17 +5,18 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    class LessFilters : ITokenFilter<LessToken>
+    public class ExceptFilter : ITokenFilter<ExceptToken>
     {
+
         public bool IsMatch(char ch)
         {
-            return ch == '-';
+            return ch == '/';
         }
 
-        public LessToken Read(TextReader reader)
+        public ExceptToken Read(TextReader reader)
         {
             reader.Read();
-            return new LessToken();
+            return new ExceptToken();
         }
 
         INodeToken ITokenFilter.Read(TextReader reader)

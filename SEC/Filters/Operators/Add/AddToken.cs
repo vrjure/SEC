@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    class AddToken : OperatorToken
+    public class AddToken : OperatorToken
     {
         public AddToken() : base("+", 4)
         {

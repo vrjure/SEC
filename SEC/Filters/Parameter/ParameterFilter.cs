@@ -5,8 +5,14 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    class ParameterFilters : ITokenFilter<ParameterToken>
+    public class ParameterFilter : ITokenFilter<ParameterToken>
     {
+        private readonly Func<string, double> getValueFunc;
+        public ParameterFilter(Func<string, double> getValueFunc)
+        {
+            this.getValueFunc = getValueFunc;
+        }
+
         public bool IsMatch(char ch)
         {
             return ch == '@';
@@ -27,7 +33,7 @@ namespace SEC.Filters
                     break;
                 }
             }
-            return new ParameterToken(sb.ToString());
+            return new ParameterToken(sb.ToString(), this.getValueFunc);
         }
 
         INodeToken ITokenFilter.Read(TextReader reader)

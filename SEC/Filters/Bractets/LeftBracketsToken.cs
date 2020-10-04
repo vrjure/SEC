@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    class LeftBracketsToken : NodeToken
+    public class LeftBracketsToken : NodeToken
     {
         private static RightBracketsToken rightBracketsToken = new RightBracketsToken();
         public LeftBracketsToken() : base("(")
