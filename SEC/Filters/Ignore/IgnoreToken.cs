@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    public class IgnoreToken : NodeToken
+    class IgnoreToken : NodeToken
     {
         public IgnoreToken(string token) : base(token)
         {

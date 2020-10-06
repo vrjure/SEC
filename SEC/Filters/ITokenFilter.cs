@@ -7,14 +7,8 @@ namespace SEC.Filters
 {
     public interface ITokenFilter
     {
-        bool IsMatch(char ch);
-
-        INodeToken Read(TextReader reader);
-    }
-
-    public interface ITokenFilter<TToken> : ITokenFilter where TToken: INodeToken
-    {
-        new TToken Read(TextReader reader);
+        int FilterLength { get; }
+        int Read(ReadOnlyMemory<char> buffer, int offset, out INodeToken token);
     }
 
 }

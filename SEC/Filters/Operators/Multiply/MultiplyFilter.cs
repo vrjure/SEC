@@ -5,22 +5,24 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    public class MultiplyFilter : ITokenFilter<MultiplyToken>
+    class MultiplyFilter : TokenFilter<MultiplyToken>
     {
-        public bool IsMatch(char ch)
+        public MultiplyFilter() : base(1)
         {
-            return ch == '*';
+
         }
 
-        public MultiplyToken Read(TextReader reader)
+        public override int Read(ReadOnlyMemory<char> buffer, int offset, out MultiplyToken token)
         {
-            reader.Read();
-            return new MultiplyToken();
-        }
+            var ch = buffer.Span[offset];
+            if (ch == '*')
+            {
+                token = new MultiplyToken();
+                return 1;
+            }
 
-        INodeToken ITokenFilter.Read(TextReader reader)
-        {
-            return Read(reader);
+            token = null;
+            return 0;
         }
     }
 }

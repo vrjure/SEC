@@ -11,13 +11,16 @@ namespace SEC
 {
     class TokenReader : IEnumerator<INodeToken>, IEnumerator, IDisposable
     {
-        private TextReader reader;
         private IEnumerable<ITokenFilter> filters;
         private readonly string expression;
+        private int offset = 0;
+        private int length = 0;
 
         public INodeToken Current { get; private set; }
 
         object IEnumerator.Current => Current;
+
+        private Memory<char> buffer;
 
         protected TokenReader()
         {
@@ -28,38 +31,36 @@ namespace SEC
         {
             this.filters = filters;
             this.expression = expression;
-            this.reader = new StringReader(this.expression);
+            this.offset = 0;
+            this.length = this.expression.Length;
+            buffer = this.expression.ToCharArray();
         }
 
         private INodeToken Read()
         {
-            var ch = this.reader.Peek();
-            if (ch == -1)
+            if (offset >= this.length)
             {
                 return null;
             }
-
-            ITokenFilter filter = null;
+            
             foreach (var item in filters)
             {
-                if (item.IsMatch((char)ch))
+                var count = item.Read(buffer, offset, out INodeToken token);
+                if (count > 0)
                 {
-                    filter = item;
-                    break;
+                    offset += count;
+                    return token;
                 }
             }
 
-            if (filter == null)
-            {
-                throw new InvalidOperationException($"invalid character [{(char)ch}]");
-            }
-
-            return filter.Read(reader);
+            throw new InvalidOperationException($"invalid expression [{this.expression}]");
         }
 
         public void Dispose()
         {
-            this.reader.Dispose();
+            buffer = null;
+            this.length = 0;
+            this.offset = 0;
         }
 
         public bool MoveNext()
@@ -76,8 +77,7 @@ namespace SEC
 
         public void Reset()
         {
-            this.reader.Dispose();
-            this.reader = new StringReader(this.expression);
+            this.offset = 0;
         }
     }
 }

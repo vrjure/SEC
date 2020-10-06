@@ -4,9 +4,9 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    class ExceptToken : OperatorToken
+    class ModToken : OperatorToken
     {
-        public ExceptToken(): base("/", 3)
+        public ModToken():base("%", 3)
         {
 
         }
@@ -15,7 +15,7 @@ namespace SEC.Filters
         {
             return new NumberToken(left, right, this, (l, r) =>
             {
-                return l.Value / r.Value;
+                return l.Value % r.Value;
             });
         }
     }

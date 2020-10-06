@@ -5,23 +5,23 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    public class ExceptFilter : ITokenFilter<ExceptToken>
+    class ExceptFilter : TokenFilter<ExceptToken>
     {
-
-        public bool IsMatch(char ch)
+        public ExceptFilter() : base(1)
         {
-            return ch == '/';
+
         }
 
-        public ExceptToken Read(TextReader reader)
+        public override int Read(ReadOnlyMemory<char> buffer, int offset, out ExceptToken token)
         {
-            reader.Read();
-            return new ExceptToken();
-        }
-
-        INodeToken ITokenFilter.Read(TextReader reader)
-        {
-            return Read(reader);
+            var ch = buffer.Span[offset];
+            if (ch == '/')
+            {
+                token = new ExceptToken();
+                return 1;
+            }
+            token = null;
+            return 0;
         }
     }
 }

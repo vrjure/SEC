@@ -5,40 +5,41 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    public class ParameterFilter : ITokenFilter<ParameterToken>
+    class ParameterFilter : TokenFilter<ParameterToken>
     {
         private readonly Func<string, double> getValueFunc;
-        public ParameterFilter(Func<string, double> getValueFunc)
+        public ParameterFilter(Func<string, double> getValueFunc):base(1)
         {
             this.getValueFunc = getValueFunc;
         }
 
-        public bool IsMatch(char ch)
+        public override int Read(ReadOnlyMemory<char> buffer, int offset, out ParameterToken token)
         {
-            return ch == '@';
-        }
-
-        public ParameterToken Read(TextReader reader)
-        {
+            var index = offset;
             StringBuilder sb = new StringBuilder();
-            var ch = -1;
-            while ((ch = reader.Peek()) > -1)
+            var ch = buffer.Span[index];
+            if (ch != '@')
             {
+                token = null;
+                return 0;
+            }
+            while (index < buffer.Length)
+            {
+                ch = buffer.Span[index];
                 if (ch == '@' || ch == '_' || (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <= 57))
                 {
-                    sb.Append((char)reader.Read());
+                    sb.Append(buffer.Span[index]);
                 }
                 else
                 {
                     break;
                 }
+                index++;
             }
-            return new ParameterToken(sb.ToString(), this.getValueFunc);
+            var s = sb.ToString();
+            token = new ParameterToken(s, this.getValueFunc);
+            return s.Length;
         }
 
-        INodeToken ITokenFilter.Read(TextReader reader)
-        {
-            return Read(reader);
-        }
     }
 }

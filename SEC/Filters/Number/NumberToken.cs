@@ -11,7 +11,7 @@ namespace SEC.Filters
             this.Value = value;
         }
 
-        public NumberToken(NumberToken left, NumberToken right, OperatorToken op, Func<NumberToken, NumberToken, double> calc):this($"{left}{op}{right}", calc(left, right))
+        public NumberToken(NumberToken left, NumberToken right, OperatorToken op, Func<NumberToken, NumberToken, double> calc):this($"{left}{right}{op}", calc(left, right))
         {
             
         }

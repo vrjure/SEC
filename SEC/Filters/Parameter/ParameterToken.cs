@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    public class ParameterToken : NodeToken
+    class ParameterToken : NodeToken
     {
         private readonly Func<string, double> getValueFunc;
         public ParameterToken(string token, Func<string, double> getValFunc) : base(token)

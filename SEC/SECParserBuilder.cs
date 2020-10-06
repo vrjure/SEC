@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace SEC
@@ -24,6 +25,9 @@ namespace SEC
             AddFilter<LessFilter>();
             AddFilter<MultiplyFilter>();
             AddFilter<BracketsFilter>();
+            AddFilter<ModFilter>();
+            AddFilter<ShiftLeftFilter>();
+            AddFilter<ShiftRightFilter>();
             return this;
         }
 
@@ -41,10 +45,6 @@ namespace SEC
 
         public SECParserBuilder RemoveFilter<TFilter>() where TFilter : class , ITokenFilter
         {
-            if (this.Filters.ContainsKey(typeof(TFilter)))
-            {
-                throw new InvalidOperationException($"Type of {typeof(TFilter).Name} is existed");
-            }
             this.Filters.Remove(typeof(TFilter));
             return this;
         }
@@ -57,7 +57,8 @@ namespace SEC
 
         public ITokenParser Build()
         {
-            return new SECParser(Filters.Values);
+            var sorted = Filters.Values.OrderByDescending(f => f.FilterLength).ToList();
+            return new SECParser(sorted);
         }
     }
 }

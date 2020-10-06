@@ -5,29 +5,32 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    public class IgnoreFilter : ITokenFilter<IgnoreToken>
+    class IgnoreFilter : TokenFilter<IgnoreToken>
     {
-        public bool IsMatch(char ch)
+        public IgnoreFilter() : base(1)
         {
-            return ch == ' ' || ch == '\n';
+
         }
 
-        public IgnoreToken Read(TextReader reader)
+        public override int Read(ReadOnlyMemory<char> buffer, int offset, out IgnoreToken token)
         {
-            StringBuilder sb = new StringBuilder();
-            var ch = reader.Peek();
-            while (ch == ' ' || ch == '\n')
+            var index = offset;
+            StringBuilder sb = new StringBuilder();         
+            while (index < buffer.Length)
             {
-                ch = reader.Read();
-                sb.Append(ch);
-                ch = reader.Peek();
+                var ch = buffer.Span[index];
+                if (ch == ' ' || ch == '\n' || ch == '\r')
+                {
+                    sb.Append(ch);
+                }
+                else
+                {
+                    break;
+                }
+                index++;
             }
-            return new IgnoreToken(sb.ToString());
-        }
-
-        INodeToken ITokenFilter.Read(TextReader reader)
-        {
-            return Read(reader);
+            token = new IgnoreToken(sb.ToString());
+            return sb.Length;
         }
     }
 }

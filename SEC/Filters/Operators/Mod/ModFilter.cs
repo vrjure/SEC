@@ -5,24 +5,25 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    class LessFilter : TokenFilter<LessToken>
+    class ModFilter : TokenFilter<ModToken>
     {
-        public LessFilter() : base(1)
+        public ModFilter() : base(1)
         {
 
         }
 
-        public override int Read(ReadOnlyMemory<char> buffer, int offset, out LessToken token)
+        public override int Read(ReadOnlyMemory<char> buffer, int offset, out ModToken token)
         {
             var ch = buffer.Span[offset];
-            if (ch == '-')
+            if (ch == '%')
             {
-                token = new LessToken();
+                token = new ModToken();
                 return 1;
             }
 
             token = null;
             return 0;
         }
+
     }
 }

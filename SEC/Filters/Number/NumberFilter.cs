@@ -5,50 +5,39 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    public class NumberFilter : ITokenFilter
+    public class NumberFilter : TokenFilter<NumberToken>
     {
-        HashSet<char> chars = new HashSet<char>();
-        public NumberFilter()
+        public NumberFilter() : base(1)
         {
-            chars.Add('0');
-            chars.Add('1');
-            chars.Add('2');
-            chars.Add('3');
-            chars.Add('4');
-            chars.Add('5');
-            chars.Add('6');
-            chars.Add('7');
-            chars.Add('8');
-            chars.Add('9');
+
         }
 
-        public bool IsMatch(char ch)
+        public override int Read(ReadOnlyMemory<char> buffer, int offset, out NumberToken token)
         {
-            if (ch == '.')
-            {
-                throw new InvalidOperationException($"Invalid character .");
-            }
-            return chars.Contains(ch);
-        }
-
-        public INodeToken Read(TextReader reader)
-        {
+            var index = offset;
             StringBuilder sb = new StringBuilder();
-            var ch = -1;
-            while ((ch = reader.Peek()) > -1)
+            var ch = buffer.Span[index];
+            if (!(ch >= 48 && ch <= 57))
             {
-                if (ch >= 48 && ch <= 57 || ch == '.')
+                token = null;
+                return 0;
+            }
+            while (index < buffer.Length)
+            {
+                ch = buffer.Span[index];
+                if ((ch >= 48 && ch <= 57) || ch == '.')
                 {
-                    reader.Read();
-                    sb.Append((char)ch);
+                    sb.Append(ch);
                 }
                 else
                 {
                     break;
                 }
+                index++;
             }
-            var token = sb.ToString();
-            return new NumberToken(token, double.Parse(token));
+            var s = sb.ToString();
+            token = new NumberToken(sb.ToString(), double.Parse(s));
+            return s.Length;
         }
     }
 }

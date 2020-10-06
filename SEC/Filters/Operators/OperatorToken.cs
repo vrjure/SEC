@@ -52,6 +52,13 @@ namespace SEC.Filters
 
             stack.Push(this);
         }
+    }
 
+    public class OperatorComparer : IComparer<OperatorToken>
+    {
+        public int Compare(OperatorToken x, OperatorToken y)
+        {
+            return x.Priority - y.Priority;
+        }
     }
 }

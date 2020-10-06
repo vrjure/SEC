@@ -6,36 +6,26 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    public class BracketsFilter : ITokenFilter
+    class BracketsFilter : ITokenFilter
     {
-        public BracketsFilter()
-        {
+        public int FilterLength => 1;
 
-        }
-
-        public bool IsMatch(char ch)
+        public int Read(ReadOnlyMemory<char> buffer, int offset, out INodeToken token)
         {
-            return ch == '(' || ch == ')';
-        }
-
-        public INodeToken Read(TextReader reader)
-        {
-            var ch = reader.Read();
+            var ch = buffer.Span[offset];
             if (ch == '(')
             {
-                return new LeftBracketsToken();
+                token = new LeftBracketsToken();
+                return 1;
             }
             else if (ch == ')')
             {
-                return new RightBracketsToken();
+                token = new RightBracketsToken();
+                return 1;
             }
 
-            throw new InvalidOperationException($"Invalid character {(char)ch}");
-        }
-
-        INodeToken ITokenFilter.Read(TextReader reader)
-        {
-            return Read(reader);
+            token = null;
+            return 0;
         }
     }
 }
