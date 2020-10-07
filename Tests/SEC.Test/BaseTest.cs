@@ -81,19 +81,5 @@ namespace SEC.Test
             var token = parser.Parse("5+(2*(1+3))");
             Assert.AreEqual(13, token.Value);
         }
-
-        [Test]
-        public void ShiftLeftTest()
-        {
-            var token = parser.Parse("1<<3");
-            Assert.AreEqual(8, token.Value);
-        }
-
-        [Test]
-        public void ShiftRightTest()
-        {
-            var token = parser.Parse("8>> 3");
-            Assert.AreEqual(1, token.Value);
-        }
     }
 }

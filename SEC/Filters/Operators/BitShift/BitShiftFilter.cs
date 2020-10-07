@@ -4,14 +4,11 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    class ShiftRightFilter : TokenFilter<ShiftRightToken>
+    class BitShiftFilter : ITokenFilter
     {
-        public ShiftRightFilter() : base(2)
-        {
+        public int FilterLength => 2;
 
-        }
-
-        public override int Read(ReadOnlyMemory<char> buffer, int offset, out ShiftRightToken token)
+        public int Read(ReadOnlyMemory<char> buffer, int offset, out INodeToken token)
         {
             if (buffer.Length - offset < 2)
             {
@@ -20,7 +17,12 @@ namespace SEC.Filters
             }
 
             var span = buffer.Span.Slice(offset, 2);
-            if (span[0] == '>' && span[1] == '>')
+            if (span[0] == '<' && span[1] == '<')
+            {
+                token = new ShiftLeftToken();
+                return 2;
+            }
+            else if (span[0] == '>' && span[1] == '>')
             {
                 token = new ShiftRightToken();
                 return 2;

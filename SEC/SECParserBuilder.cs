@@ -1,4 +1,5 @@
 ﻿using SEC.Filters;
+using SEC.Filters.Operators.Bitwise;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,15 +20,11 @@ namespace SEC
         public SECParserBuilder UseDefaultFilters()
         {
             AddFilter<IgnoreFilter>();
+            AddFilter<BasicFilter>();
             AddFilter<NumberFilter>();
-            AddFilter<AddFilter>();
-            AddFilter<ExceptFilter>();
-            AddFilter<LessFilter>();
-            AddFilter<MultiplyFilter>();
             AddFilter<BracketsFilter>();
-            AddFilter<ModFilter>();
-            AddFilter<ShiftLeftFilter>();
-            AddFilter<ShiftRightFilter>();
+            AddFilter<BitShiftFilter>();
+            AddFilter<BitwiseFilter>();
             return this;
         }
 
