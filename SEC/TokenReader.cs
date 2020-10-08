@@ -53,7 +53,7 @@ namespace SEC
                 }
             }
 
-            throw new InvalidOperationException($"invalid expression [{this.expression}]");
+            throw new InvalidOperationException($"invalid expression {this.expression}");
         }
 
         public void Dispose()

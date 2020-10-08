@@ -31,9 +31,14 @@ namespace SEC
         }
 
         private static int defaultCapacity = 4;
-        public TokenStack()
+        public TokenStack(): this(0)
         {
-            array = new INodeToken[0];
+
+        }
+
+        public TokenStack(int capacity)
+        {
+            array = new INodeToken[capacity];
             size = 0;
             version = 0;
         }

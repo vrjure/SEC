@@ -7,7 +7,7 @@ namespace SEC.Filters
 {
     public class NumberFilter : TokenFilter<NumberToken>
     {
-        public NumberFilter() : base(1)
+        public NumberFilter() : base(1000)
         {
 
         }
@@ -17,15 +17,16 @@ namespace SEC.Filters
             var index = offset;
             StringBuilder sb = new StringBuilder();
             var ch = buffer.Span[index];
-            if (!(ch >= 48 && ch <= 57))
+            if (!Char.IsDigit(ch))
             {
                 token = null;
                 return 0;
             }
+
             while (index < buffer.Length)
             {
                 ch = buffer.Span[index];
-                if ((ch >= 48 && ch <= 57) || ch == '.')
+                if (Char.IsDigit(ch) || ch == '.')
                 {
                     sb.Append(ch);
                 }
@@ -36,6 +37,10 @@ namespace SEC.Filters
                 index++;
             }
             var s = sb.ToString();
+            if (s.EndsWith("."))
+            {
+                throw new InvalidOperationException($"Invalid number {s}");
+            }
             token = new NumberToken(sb.ToString(), double.Parse(s));
             return s.Length;
         }

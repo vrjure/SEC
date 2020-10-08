@@ -25,6 +25,8 @@ namespace SEC
             AddFilter<BracketsFilter>();
             AddFilter<BitShiftFilter>();
             AddFilter<BitwiseFilter>();
+            AddFilter<SingleConditionFilter>();
+            AddFilter<DoubleConditionFilter>();
             return this;
         }
 

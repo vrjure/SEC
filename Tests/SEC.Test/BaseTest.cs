@@ -81,5 +81,12 @@ namespace SEC.Test
             var token = parser.Parse("5+(2*(1+3))");
             Assert.AreEqual(13, token.Value);
         }
+
+        [Test]
+        public void NegativeNumberTest()
+        {
+            var token = parser.Parse("5-(-1.2)");
+            Assert.AreEqual(6.2, token.Value);
+        }
     }
 }

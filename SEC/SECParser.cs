@@ -10,6 +10,7 @@ namespace SEC
     class SECParser : ITokenParser
     {
         private readonly ICollection<ITokenFilter> filters;
+        private string expression;
         public SECParser(ICollection<ITokenFilter> filters)
         {
             this.filters = filters;
@@ -17,6 +18,7 @@ namespace SEC
 
         public NumberToken Parse(string expression)
         {
+            this.expression = expression;
             using (TokenReader reader = new TokenReader(expression, filters))
             {
                 return Parse(reader);
@@ -25,7 +27,7 @@ namespace SEC
 
         public NumberToken Parse(IEnumerator<INodeToken> reader)
         {
-            TokenStack stack = new TokenStack();
+            TokenStack stack = new TokenStack(this.expression.Length);
 
             while (reader.MoveNext())
             {
