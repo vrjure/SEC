@@ -23,5 +23,15 @@ namespace SEC.Extensions
             }
             return true;
         }
+
+        public static void CheckBooleanToken(this NumberToken token)
+        {
+            if (token is BooleanToken)
+            {
+                return;
+            }
+
+            throw new InvalidOperationException($"{token} is not a boolean token");
+        }
     }
 }

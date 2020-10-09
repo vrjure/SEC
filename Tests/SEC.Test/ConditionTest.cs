@@ -81,5 +81,16 @@ namespace SEC.Test
 
             Assert.AreEqual(1, token.Value);
         }
+
+        [Test]
+        public void AndOrTest()
+        {
+            var token = parser.Parse("1 == 1 && 1== 2");
+            Assert.AreEqual(0, token.Value);
+
+            token = parser.Parse("1 == 1 || 1 == 2");
+
+            Assert.AreEqual(1, token.Value);
+        }
     }
 }

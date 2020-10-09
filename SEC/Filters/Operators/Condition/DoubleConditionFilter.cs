@@ -39,6 +39,16 @@ namespace SEC.Filters
                 token = new NotEqualToken();
                 return FilterLength;
             }
+            else if (ch1 == '|' && ch2 == '|')
+            {
+                token = new OrToken();
+                return FilterLength;
+            }
+            else if (ch1 == '&' && ch2 == '&')
+            {
+                token = new AndToken();
+                return FilterLength;
+            }
 
             token = null;
             return 0;
