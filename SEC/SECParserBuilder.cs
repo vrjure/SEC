@@ -30,16 +30,20 @@ namespace SEC
             return this;
         }
 
+        public SECParserBuilder AddFilter(Type filterType, ITokenFilter filter)
+        {
+            Filters.Add(filterType, filter);
+            return this;
+        }
+
         public SECParserBuilder AddFilter<TFilter>() where TFilter : class, ITokenFilter, new()
         {
-            Filters.Add(typeof(TFilter), new TFilter());
-            return this;
+            return AddFilter(typeof(TFilter), new TFilter());
         }
 
         public SECParserBuilder AddParameterFilter(Func<string, double> getValueFunc)
         {
-            Filters.Add(typeof(ParameterFilter), new ParameterFilter(getValueFunc));
-            return this;
+            return AddFilter(typeof(ParameterFilter), new ParameterFilter(getValueFunc));
         }
 
         public SECParserBuilder RemoveFilter<TFilter>() where TFilter : class , ITokenFilter
