@@ -7,7 +7,7 @@ namespace SEC.Test
 {
     class BitwiseTest
     {
-        ITokenParser parser = null;
+        ISECParser parser = null;
         [SetUp]
         public void Setup()
         {

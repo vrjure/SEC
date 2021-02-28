@@ -4,7 +4,7 @@ namespace SEC.Test
 {
     public class BaseTest
     {
-        ITokenParser parser = null;
+        ISECParser parser = null;
         [SetUp]
         public void Setup()
         {

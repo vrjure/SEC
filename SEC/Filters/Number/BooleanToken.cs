@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SEC.Filters
 {
-    class BooleanToken : NumberToken
+    public class BooleanToken : NumberToken
     {
         public BooleanToken(NumberToken left,NumberToken right, OperatorToken op, Func<NumberToken, NumberToken, bool> calc):base($"{left}{right}{op}", calc(left, right) ? 1 : 0)
         {

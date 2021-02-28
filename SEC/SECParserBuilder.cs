@@ -58,7 +58,7 @@ namespace SEC
             return this;
         }
 
-        public ITokenParser Build()
+        public ISECParser Build()
         {
             var sorted = Filters.Values.OrderByDescending(f => f.FilterLength).ToList();
             return new SECParser(sorted);

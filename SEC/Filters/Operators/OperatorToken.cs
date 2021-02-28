@@ -16,7 +16,7 @@ namespace SEC.Filters
 
         public abstract NumberToken Calc(NumberToken left, NumberToken right);
 
-        public override void Parse(TokenStack stack, IEnumerator<INodeToken> reader, ITokenParser parser)
+        public override void Parse(TokenStack stack, IEnumerator<INodeToken> reader, ISECParser parser)
         {
 
             if (stack.Count == 0)//like (-1) or -1+1

@@ -18,7 +18,7 @@ namespace SEC.Filters
             return this.Token == other.Token;
         }
 
-        public virtual void Parse(TokenStack stack, IEnumerator<INodeToken> reader, ITokenParser parser)
+        public virtual void Parse(TokenStack stack, IEnumerator<INodeToken> reader, ISECParser parser)
         {
             stack.Push(this);
         }

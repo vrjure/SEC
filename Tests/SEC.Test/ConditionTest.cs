@@ -7,7 +7,7 @@ namespace SEC.Test
 {
     public class ConditionTest
     {
-        ITokenParser parser = null;
+        ISECParser parser = null;
         [SetUp]
         public void SetUp()
         {

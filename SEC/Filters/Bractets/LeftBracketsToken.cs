@@ -12,7 +12,7 @@ namespace SEC.Filters
 
         }
 
-        public override void Parse(TokenStack stack, IEnumerator<INodeToken> reader, ITokenParser parser)
+        public override void Parse(TokenStack stack, IEnumerator<INodeToken> reader, ISECParser parser)
         {
             var lB = 1;
             var rB = 0;

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SEC
 {
-    class SECParser : ITokenParser
+    class SECParser : ISECParser
     {
         private readonly ICollection<ITokenFilter> filters;
         private string expression;

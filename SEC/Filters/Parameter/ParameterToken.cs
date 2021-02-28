@@ -12,7 +12,7 @@ namespace SEC.Filters
             this.getValueFunc = getValFunc;
         }
 
-        public override void Parse(TokenStack stack, IEnumerator<INodeToken> reader, ITokenParser parser)
+        public override void Parse(TokenStack stack, IEnumerator<INodeToken> reader, ISECParser parser)
         {
             var value = getValueFunc(Token);
             var numberToken = new NumberToken(value.ToString(), value);

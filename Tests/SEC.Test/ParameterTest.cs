@@ -7,7 +7,7 @@ namespace SEC.Test
 {
     public class ParameterTest
     {
-        ITokenParser parser = null;
+        ISECParser parser = null;
         private Dictionary<string, double> valueDict = new Dictionary<string, double>();
         [SetUp]
         public void Setup()

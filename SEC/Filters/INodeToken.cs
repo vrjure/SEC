@@ -8,6 +8,6 @@ namespace SEC.Filters
     {
         string Token { get; }
 
-        void Parse(TokenStack stack, IEnumerator<INodeToken> reader, ITokenParser parser);
+        void Parse(TokenStack stack, IEnumerator<INodeToken> reader, ISECParser parser);
     }
 }
